@@ -40,9 +40,12 @@ async function logFileExtension() {
     const appLogObj = path.parse(logFilePath);
     const appLogExtension = appLogObj.ext;
 
+    const buffer = await fs.readFile(logFilePath);
+
     console.log('Шлях до app.log:', logFilePath);
     console.log('складові частини файлу app.log:', appLogObj);
     console.log('Розширення файлу:', appLogExtension);
+    console.log('Buffer: ', buffer);
   } catch (error) {
     console.error('Помилка:', error);
   }
@@ -84,3 +87,10 @@ async function setupProject() {
 }
 
 setupProject();
+
+// const logsDir = path.join(process.cwd(), 'logs');
+// const logFilePath = path.join(logsDir, 'app.log');
+
+// const buffer = await fs.readFile(logFilePath);
+
+// console.log('Buffer: ', buffer);
