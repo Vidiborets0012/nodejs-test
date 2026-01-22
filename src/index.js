@@ -39,9 +39,15 @@ async function setupProject() {
     const logsDir = path.join(process.cwd(), 'logs');
     const logFilePath = path.join(logsDir, 'app.log');
 
-    console.log('Шлях до логів:', logFilePath);
+    // 2. Створюємо папку, якщо її ще немає
+    // { recursive: true } дозволяє не видавати помилку, якщо папка вже існує
+    await fs.mkdir(logsDir, { recursive: true });
 
-    // Тут ми просто підготували рядки, файли ще не створилися
+    // 3. Записуємо початковий заголовок у файл (перезаписує файл)
+    await fs.writeFile(logFilePath, '--- СТАРТ ЛОГУВАННЯ ---\n', 'utf-8');
+    console.log('Файл створено успішно!');
+
+    console.log('Шлях до логів:', logFilePath);
   } catch (error) {
     console.error('Помилка:', error);
   }
