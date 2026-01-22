@@ -47,6 +47,18 @@ async function setupProject() {
     await fs.writeFile(logFilePath, '--- СТАРТ ЛОГУВАННЯ ---\n', 'utf-8');
     console.log('Файл створено успішно!');
 
+    // 4. Функція для додавання запису
+    const addLog = async (message) => {
+      const timestamp = new Date().toLocaleString();
+      const logEntry = `[${timestamp}] ${message}\n`;
+      await fs.appendFile(logFilePath, logEntry, 'utf-8');
+    };
+
+    await addLog('Користувач зайшов на сайт');
+    await addLog('Користувач натиснув кнопку "Купити"');
+
+    console.log('Записи додано.');
+
     console.log('Шлях до логів:', logFilePath);
   } catch (error) {
     console.error('Помилка:', error);
