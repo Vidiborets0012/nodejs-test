@@ -32,6 +32,24 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
+async function logFileExtension() {
+  try {
+    const logsDir = path.join(process.cwd(), 'logs');
+    const logFilePath = path.join(logsDir, 'app.log');
+
+    const appLogObj = path.parse(logFilePath);
+    const appLogExtension = appLogObj.ext;
+
+    console.log('Шлях до app.log:', logFilePath);
+    console.log('складові частини файлу app.log:', appLogObj);
+    console.log('Розширення файлу:', appLogExtension);
+  } catch (error) {
+    console.error('Помилка:', error);
+  }
+}
+
+logFileExtension();
+
 async function setupProject() {
   try {
     // 1. Формуємо шлях до папки 'logs' у корені проекту
