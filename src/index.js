@@ -10,30 +10,44 @@ const books = [
   { id: 3, title: 'Відьмак', author: 'Анджей Сапковський' },
 ];
 
-app.get('/books/:bookId', (req, res) => {
-  // Витягуємо параметр з об'єкта req.params
+const findBookMiddleware = (req, res, next) => {
   const { bookId } = req.params;
+  const book = books.find((b) => b.id === Number(bookId));
+  if (!book) {
+    return res.status(404).json({ message: 'Книгу не знайдено' });
+  }
+  req.book = book;
+  next();
+};
+
+app.get('/books/:bookId', findBookMiddleware, (req, res) => {
+  // Витягуємо параметр з об'єкта req.params
+  // const { bookId } = req.params;
 
   // параметри завжди приходять як рядки, тому конвертуємо в число
-  const book = books.find((b) => b.id === Number(bookId));
+  // const book = books.find((b) => b.id === Number(bookId));
 
-  if (!book) {
-    return res.status(404).json({ message: 'Книгу не знайдено' });
-  }
+  // if (!book) {
+  //   return res.status(404).json({ message: 'Книгу не знайдено' });
+  // }
 
-  res.json(book);
+  // res.json(book);
+
+  res.status(200).json(req.book);
 });
 
-app.get('/books/:bookId/author', (req, res) => {
-  const { bookId } = req.params;
+app.get('/books/:bookId/author', findBookMiddleware, (req, res) => {
+  // const { bookId } = req.params;
 
-  const book = books.find((b) => b.id === Number(bookId));
+  // const book = books.find((b) => b.id === Number(bookId));
 
-  if (!book) {
-    return res.status(404).json({ message: 'Книгу не знайдено' });
-  }
+  // if (!book) {
+  //   return res.status(404).json({ message: 'Книгу не знайдено' });
+  // }
 
-  res.json(book.author);
+  // res.json(book.author);
+
+  res.status(200).json(req.book.author);
 });
 
 app.listen(PORT, () => {
